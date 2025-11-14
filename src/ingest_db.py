@@ -4,6 +4,9 @@ import sqlite3
 import pandas as pd
 
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
+
 CSV_TABLE_MAP = {
     "users.csv": "users",
     "products.csv": "products",
@@ -14,12 +17,14 @@ CSV_TABLE_MAP = {
 
 
 def main():
-    base_dir = Path(__file__).parent
-    db_path = base_dir / "ecommerce.db"
+    if not DATA_DIR.exists():
+        raise FileNotFoundError(f"Data directory not found: {DATA_DIR}")
+
+    db_path = DATA_DIR / "ecommerce.db"
 
     with sqlite3.connect(db_path) as conn:
         for file_name, table_name in CSV_TABLE_MAP.items():
-            csv_path = base_dir / file_name
+            csv_path = DATA_DIR / file_name
             if not csv_path.exists():
                 raise FileNotFoundError(f"Missing CSV file: {csv_path}")
 

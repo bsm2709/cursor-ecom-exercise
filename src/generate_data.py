@@ -6,6 +6,9 @@ from faker import Faker
 
 
 RECORD_COUNT = 50
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
+
 fake = Faker()
 random.seed(2024)
 Faker.seed(2024)
@@ -109,7 +112,7 @@ def generate_reviews(count: int, user_ids, product_ids):
 
 
 def main():
-    output_dir = Path(__file__).parent
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     users = generate_users(RECORD_COUNT)
     products = generate_products(RECORD_COUNT)
@@ -127,7 +130,7 @@ def main():
 
     for file_name, rows in datasets.items():
         df = pd.DataFrame(rows)
-        df.to_csv(output_dir / file_name, index=False)
+        df.to_csv(DATA_DIR / file_name, index=False)
 
     print("Data generated successfully")
 

@@ -16,7 +16,8 @@ LIMIT 5;
 
 
 def main():
-    db_path = Path(__file__).parent / "ecommerce.db"
+    data_dir = Path(__file__).resolve().parent.parent / "data"
+    db_path = data_dir / "ecommerce.db"
     if not db_path.exists():
         raise FileNotFoundError(f"Database not found at {db_path}")
 
